@@ -1,4 +1,4 @@
-;;; typewriter-roll-mode.el --- Minor mode to force writing on first line only -*- lexical-binding: t; -*-
+;;; typewriter-roll-mode.el --- Aid for distraction-free writing -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023 Peter Badida
 

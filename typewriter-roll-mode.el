@@ -30,35 +30,30 @@
 
 ;;; Code:
 
-(defun typewriter-roll-scroll-up ()
+(defsubst typewriter-roll-scroll-up ()
   "Scroll current line to the top."
-  (inline)
   (recenter-top-bottom 0))
 
-(defun typewriter-roll-scroll-or-nothing (pos)
+(defsubst typewriter-roll-scroll-or-nothing (pos)
   "Scroll if the cursor POS changed (content wrapped)."
-  (inline)
-  (if (not (eq pos (current-column)))
+  (unless (eq pos (current-column))
       (typewriter-roll-scroll-up)))
 
-(defun typewriter-roll-scroll-main (pos)
+(defsubst typewriter-roll-scroll-main (pos)
   "Main function for checking the first line scrolled to the top.
 Argument POS cursor's position."
-  (inline)
   (progn
     (fill-paragraph)
     (typewriter-roll-scroll-or-nothing pos)))
 
-(defun typewriter-roll-is-backspace ()
+(defsubst typewriter-roll-is-backspace ()
   "Check if current command is a backspace (left delete)."
-  (inline)
   (eq this-command 'delete-backward-char))
 
 (defun typewriter-roll-check ()
   "Check after typing whether to scroll up as in typewriter."
-  (interactive)
   (when (or (typewriter-roll-is-backspace) (eq last-command-event 32))
-    (if (not (eq (char-before) 32))
+    (unless (eq (char-before) 32)
         (typewriter-roll-scroll-main (current-column))
       (typewriter-roll-scroll-up))))
 

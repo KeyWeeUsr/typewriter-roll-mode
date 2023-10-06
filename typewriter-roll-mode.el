@@ -5,6 +5,7 @@
 ;; Author: Peter Badida <keyweeusr@gmail.com>
 ;; Keywords: convenience, line, carriage, writing, distraction, cr, rewind
 ;; Version: 1.0.0
+;; Package-Requires: ((emacs "24.1"))
 ;; Homepage: https://github.com/KeyWeeUsr/typewriter-roll-mode
 
 ;; This program is free software; you can redistribute it and/or modify

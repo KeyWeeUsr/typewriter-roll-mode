@@ -69,6 +69,7 @@ Argument POS cursor's position."
   (remove-hook 'post-self-insert-hook #'typewriter-roll--check t)
   (remove-hook 'pre-command-hook #'typewriter-roll--check t))
 
+;;;###autoload
 (define-minor-mode typewriter-roll-mode
   "Justify and scroll text to keep a single line in focus."
   :lighter " typewriter-roll"

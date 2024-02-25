@@ -1,10 +1,10 @@
 ;;; typewriter-roll-mode.el --- Aid for distraction-free writing -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2023 Peter Badida
+;; Copyright (C) 2023-2024 Peter Badida
 
 ;; Author: Peter Badida <keyweeusr@gmail.com>
 ;; Keywords: convenience, line, carriage, writing, distraction, cr, rewind
-;; Version: 1.0.0
+;; Version: 1.1.0
 ;; Package-Requires: ((emacs "24.1"))
 ;; Homepage: https://github.com/KeyWeeUsr/typewriter-roll-mode
 

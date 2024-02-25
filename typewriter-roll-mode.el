@@ -30,9 +30,22 @@
 
 ;;; Code:
 
+(defgroup typewriter-roll
+  nil
+  "Customizatino group for `typewriter-roll-mode'."
+  :group 'convenience
+  :group 'editing
+  :group 'text)
+
+(defcustom typewriter-roll-keep-in-focus
+  0
+  "Previous lines to keep in view."
+  :group 'typewriter-roll
+  :type 'number)
+
 (defsubst typewriter-roll--scroll-up ()
   "Scroll current line to the top."
-  (recenter-top-bottom 0))
+  (recenter-top-bottom typewriter-roll-keep-in-focus))
 
 (defsubst typewriter-roll--scroll-or-nothing (pos)
   "Scroll if the cursor POS changed (content wrapped)."

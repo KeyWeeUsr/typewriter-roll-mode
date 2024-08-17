@@ -29,9 +29,10 @@
       (let* ((old-win-start (window-start))
              (old-win-end (window-end))
              (old-text "text text")
-             (expected-text (format "%s\ntext" old-text)))
+             (expected-text (format "%s\ntext " old-text)))
         ;; initial text
         (insert old-text)
+
         ;; default state
         (should (string= (buffer-string) old-text))
         (should (eq (typewriter-roll--cursor-line) 1))
@@ -40,26 +41,29 @@
         (let ((fill-column 10))
           (typewriter-roll-mode)
 
-          (typewriter-roll--scroll-main (current-column))
-          ;; default state, not enough chars to fill `fill-column'
-          (should (string= (buffer-string) old-text))
+          (execute-kbd-macro (kbd "SPC"))
+          ;; default state, SPC does not trigger the roll
+          ;; keep cursor on line 1, keep top on line 1
+          (should (string= (buffer-string) (format "%s " old-text)))
           (should (eq (typewriter-roll--cursor-line) 1))
           (should (eq (typewriter-roll--top-line) 1))
 
-          (insert " text")
+          ;; text is inserted, --scroll-main not called yet
+          (insert "text")
           (should (string= (buffer-string) (format "%s text" old-text)))
           (should (eq (typewriter-roll--cursor-line) 1))
           (should (eq (typewriter-roll--top-line) 1))
 
-          ;; only after
-          (typewriter-roll--scroll-main (current-column))
+          ;; after --scroll-main call
+          ;; move cursor to line 2, move top to line 2
+          (execute-kbd-macro (kbd "SPC"))
           (should (string= (buffer-string) expected-text))
           (should (eq (typewriter-roll--cursor-line) 2))
           (should (eq (typewriter-roll--top-line) 2))
 
-          (insert " ")  ; will be removed by filling
-          (typewriter-roll--scroll-main (current-column))
-          (should (string= (buffer-string) expected-text))
+          ;; another space does not trigger the roll
+          (execute-kbd-macro (kbd "SPC"))
+          (should (string= (buffer-string) (format "%s " expected-text)))
           (should (eq (typewriter-roll--cursor-line) 2))
           (should (eq (typewriter-roll--top-line) 2)))))))
 
@@ -77,7 +81,7 @@ that line should be the only one visible on top."
       (let* ((old-win-start (window-start))
              (old-win-end (window-end))
              (old-text "text text")
-             (expected-text (format "%s\ntext" old-text)))
+             (expected-text (format "%s\ntext " old-text)))
         ;; initial text
         (insert old-text)
 
@@ -89,30 +93,29 @@ that line should be the only one visible on top."
         (let ((fill-column 10))
           (typewriter-roll-mode)
 
-          (typewriter-roll--scroll-main (current-column))
-          ;; default state, not enough chars to fill `fill-column'
+          (execute-kbd-macro (kbd "SPC"))
+          ;; default state, SPC does not trigger the roll
           ;; keep cursor on line 1, keep top on line 1
-          (should (string= (buffer-string) old-text))
+          (should (string= (buffer-string) (format "%s " old-text)))
           (should (eq (typewriter-roll--cursor-line) 1))
           (should (eq (typewriter-roll--top-line) 1))
 
           ;; text is inserted, --scroll-main not called yet
-          (insert " text")
+          (insert "text")
           (should (string= (buffer-string) (format "%s text" old-text)))
           (should (eq (typewriter-roll--cursor-line) 1))
           (should (eq (typewriter-roll--top-line) 1))
 
           ;; after --scroll-main call
           ;; move cursor to line 2, move top to line 2
-          (typewriter-roll--scroll-main (current-column))
+          (execute-kbd-macro (kbd "SPC"))
           (should (string= (buffer-string) expected-text))
           (should (eq (typewriter-roll--cursor-line) 2))
           (should (eq (typewriter-roll--top-line) 2))
 
-          ;; space will be removed by filling, keep previous state
-          (insert " ")
-          (typewriter-roll--scroll-main (current-column))
-          (should (string= (buffer-string) expected-text))
+          ;; another space does not trigger the roll
+          (execute-kbd-macro (kbd "SPC"))
+          (should (string= (buffer-string) (format "%s " expected-text)))
           (should (eq (typewriter-roll--cursor-line) 2))
           (should (eq (typewriter-roll--top-line) 2)))))))
 
@@ -130,7 +133,7 @@ keep one more line visible above."
       (let* ((old-win-start (window-start))
              (old-win-end (window-end))
              (old-text "text text")
-             (expected-text (format "%s\ntext" old-text)))
+             (expected-text (format "%s\ntext " old-text)))
         ;; initial text
         (insert old-text)
 
@@ -142,15 +145,15 @@ keep one more line visible above."
         (let ((fill-column 10))
           (typewriter-roll-mode)
 
-          (typewriter-roll--scroll-main (current-column))
-          ;; default state, not enough chars to fill `fill-column'
+          (execute-kbd-macro (kbd "SPC"))
+          ;; default state, SPC does not trigger the roll
           ;; keep cursor on line 1, keep top on line 1
-          (should (string= (buffer-string) old-text))
+          (should (string= (buffer-string) (format "%s " old-text)))
           (should (eq (typewriter-roll--cursor-line) 1))
           (should (eq (typewriter-roll--top-line) 1))
 
           ;; text is inserted, --scroll-main not called yet
-          (insert " text")
+          (insert "text")
           (should (string= (buffer-string) (format "%s text" old-text)))
           (should (eq (typewriter-roll--cursor-line) 1))
           (should (eq (typewriter-roll--top-line) 1))
@@ -158,15 +161,14 @@ keep one more line visible above."
           ;; after --scroll-main call
           ;; move cursor to line 2, keep top on line 1
           ;; (i.e. +1 previous in focus)
-          (typewriter-roll--scroll-main (current-column))
+          (execute-kbd-macro (kbd "SPC"))
           (should (string= (buffer-string) expected-text))
           (should (eq (typewriter-roll--cursor-line) 2))
           (should (eq (typewriter-roll--top-line) 1))
 
-          ;; space will be removed by filling, keep previous state
-          (insert " ")
-          (typewriter-roll--scroll-main (current-column))
-          (should (string= (buffer-string) expected-text))
+          ;; another space does not trigger the roll
+          (execute-kbd-macro (kbd "SPC"))
+          (should (string= (buffer-string) (format "%s " expected-text)))
           (should (eq (typewriter-roll--cursor-line) 2))
           (should (eq (typewriter-roll--top-line) 1)))))))
 
@@ -184,7 +186,7 @@ but keep one more line visible above."
       (let* ((old-win-start (window-start))
              (old-win-end (window-end))
              (old-text "text text")
-             (expected-text (format "%s\ntext" old-text)))
+             (expected-text (format "%s\ntext " old-text)))
         ;; initial text
         (insert old-text)
 
@@ -196,15 +198,15 @@ but keep one more line visible above."
         (let ((fill-column 10))
           (typewriter-roll-mode)
 
-          (typewriter-roll--scroll-main (current-column))
-          ;; default state, not enough chars to fill `fill-column'
+          (execute-kbd-macro (kbd "SPC"))
+          ;; default state, SPC does not trigger the roll
           ;; keep cursor on line 1, keep top on line 1
-          (should (string= (buffer-string) old-text))
+          (should (string= (buffer-string) (format "%s " old-text)))
           (should (eq (typewriter-roll--cursor-line) 1))
           (should (eq (typewriter-roll--top-line) 1))
 
           ;; text is inserted, --scroll-main not called yet
-          (insert " text")
+          (insert "text")
           (should (string= (buffer-string) (format "%s text" old-text)))
           (should (eq (typewriter-roll--cursor-line) 1))
           (should (eq (typewriter-roll--top-line) 1))
@@ -212,15 +214,14 @@ but keep one more line visible above."
           ;; after --scroll-main call
           ;; move cursor to line 2, keep top on line 1
           ;; (i.e. +1 previous in focus)
-          (typewriter-roll--scroll-main (current-column))
+          (execute-kbd-macro (kbd "SPC"))
           (should (string= (buffer-string) expected-text))
           (should (eq (typewriter-roll--cursor-line) 2))
           (should (eq (typewriter-roll--top-line) 1))
 
-          ;; space will be removed by filling, keep previous state
-          (insert " ")
-          (typewriter-roll--scroll-main (current-column))
-          (should (string= (buffer-string) expected-text))
+          ;; another space does not trigger the roll
+          (execute-kbd-macro (kbd "SPC"))
+          (should (string= (buffer-string) (format "%s " expected-text)))
           (should (eq (typewriter-roll--cursor-line) 2))
           (should (eq (typewriter-roll--top-line) 1)))))))
 
@@ -238,7 +239,7 @@ that line should be the only one visible on top."
       (let* ((old-win-start (window-start))
              (old-win-end (window-end))
              (old-text "text text")
-             (expected-text (format "%s\ntext" old-text)))
+             (expected-text (format "%s\ntext " old-text)))
         ;; initial text
         (insert old-text)
 
@@ -250,30 +251,29 @@ that line should be the only one visible on top."
         (let ((fill-column 10))
           (typewriter-roll-mode)
 
-          (typewriter-roll--scroll-main (current-column))
-          ;; default state, not enough chars to fill `fill-column'
+          (execute-kbd-macro (kbd "SPC"))
+          ;; default state, SPC does not trigger the roll
           ;; keep cursor on line 1, keep top on line 1
-          (should (string= (buffer-string) old-text))
+          (should (string= (buffer-string) (format "%s " old-text)))
           (should (eq (typewriter-roll--cursor-line) 1))
           (should (eq (typewriter-roll--top-line) 1))
 
           ;; text is inserted, --scroll-main not called yet
-          (insert " text")
+          (insert "text")
           (should (string= (buffer-string) (format "%s text" old-text)))
           (should (eq (typewriter-roll--cursor-line) 1))
           (should (eq (typewriter-roll--top-line) 1))
 
           ;; after --scroll-main call
           ;; move cursor to line 2, move top to line 2
-          (typewriter-roll--scroll-main (current-column))
+          (execute-kbd-macro (kbd "SPC"))
           (should (string= (buffer-string) expected-text))
           (should (eq (typewriter-roll--cursor-line) 2))
           (should (eq (typewriter-roll--top-line) 2))
 
-          ;; space will be removed by filling, keep previous state
-          (insert " ")
-          (typewriter-roll--scroll-main (current-column))
-          (should (string= (buffer-string) expected-text))
+          ;; another space does not trigger the roll
+          (execute-kbd-macro (kbd "SPC"))
+          (should (string= (buffer-string) (format "%s " expected-text)))
           (should (eq (typewriter-roll--cursor-line) 2))
           (should (eq (typewriter-roll--top-line) 2)))))))
 
@@ -288,19 +288,18 @@ Test scrolling value used based on `typewriter-roll-prefer-scroll-margin'."
         (progn
           (advice-add 'recenter-top-bottom
                       :override
-                      (lambda (arg) (setq result arg)))
-          (let ((typewriter-roll-prefer-scroll-margin nil))
-            (with-temp-buffer
-              (insert "1\n2")  ; move cursor to trigger scrolling
-              (typewriter-roll--scroll-main (current-column)))
-            (should (eq result typewriter-roll-keep-in-focus)))
-          (let ((typewriter-roll-prefer-scroll-margin t))
-            (with-temp-buffer
-              (insert "1\n2")  ; move cursor to trigger scrolling
-              (typewriter-roll--scroll-main (current-column)))
-            (should (eq result scroll-margin))))
+                      (lambda (arg) (push arg result)))
+          (dolist (item '(nil t))
+            (let ((typewriter-roll-prefer-scroll-margin item))
+              (with-temp-buffer
+                (typewriter-roll--fix-ert-window)
+                (typewriter-roll-mode)
+                (insert "1\n2")
+                (typewriter-roll--scroll-main (current-column)))))
+          (should (equal (reverse result)
+                         `(,typewriter-roll-keep-in-focus ,scroll-margin))))
       (advice-remove 'recenter-top-bottom
-                     (lambda (arg) (setq result arg))))))
+                     (lambda (arg) (push arg result))))))
 
 (provide 'typewriter-roll-mode-tests)
 

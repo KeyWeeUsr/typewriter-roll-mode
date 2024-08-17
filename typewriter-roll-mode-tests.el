@@ -9,6 +9,9 @@
   (line-number-at-pos))
 (defun typewriter-roll--top-line ()
   (line-number-at-pos (window-start)))
+(defun typewriter-roll--fix-ert-window ()
+  ;; (error "‘recenter’ing a window that does not display current-buffer.")
+  (switch-to-buffer (current-buffer)))
 
 (ert-deftest trm-backspace ()
   (should (not
@@ -22,7 +25,7 @@
   (let ((scroll-margin 0)
         (typewriter-roll-keep-in-focus 0))
     (with-temp-buffer
-      (switch-to-buffer (current-buffer))
+      (typewriter-roll--fix-ert-window)
       (let* ((old-win-start (window-start))
              (old-win-end (window-end))
              (old-text "text text")
@@ -70,7 +73,7 @@ that line should be the only one visible on top."
         (typewriter-roll-keep-in-focus 0)
         (typewriter-roll-prefer-scroll-margin nil))
     (with-temp-buffer
-      (switch-to-buffer (current-buffer))
+      (typewriter-roll--fix-ert-window)
       (let* ((old-win-start (window-start))
              (old-win-end (window-end))
              (old-text "text text")
@@ -123,7 +126,7 @@ keep one more line visible above."
         (typewriter-roll-keep-in-focus 1)
         (typewriter-roll-prefer-scroll-margin nil))
     (with-temp-buffer
-      (switch-to-buffer (current-buffer))
+      (typewriter-roll--fix-ert-window)
       (let* ((old-win-start (window-start))
              (old-win-end (window-end))
              (old-text "text text")
@@ -177,7 +180,7 @@ but keep one more line visible above."
         (typewriter-roll-keep-in-focus 0)
         (typewriter-roll-prefer-scroll-margin t))
     (with-temp-buffer
-      (switch-to-buffer (current-buffer))
+      (typewriter-roll--fix-ert-window)
       (let* ((old-win-start (window-start))
              (old-win-end (window-end))
              (old-text "text text")
@@ -231,7 +234,7 @@ that line should be the only one visible on top."
         (typewriter-roll-keep-in-focus 0)
         (typewriter-roll-prefer-scroll-margin t))
     (with-temp-buffer
-      (switch-to-buffer (current-buffer))
+      (typewriter-roll--fix-ert-window)
       (let* ((old-win-start (window-start))
              (old-win-end (window-end))
              (old-text "text text")

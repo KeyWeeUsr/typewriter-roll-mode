@@ -73,7 +73,9 @@ Argument POS cursor's position."
 (defun typewriter-roll-mode--activate ()
   "Activate TypewriterRoll locally to a buffer."
   ;; depth=nil, local to the current buffer=t
+  ;; space (check `last-command' value after typing)
   (add-hook 'post-self-insert-hook #'typewriter-roll--check nil t)
+  ;; newline
   (add-hook 'pre-command-hook #'typewriter-roll--check nil t))
 
 (defun typewriter-roll-mode--deactivate ()

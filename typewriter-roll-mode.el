@@ -32,7 +32,7 @@
 
 (defgroup typewriter-roll
   nil
-  "Customizatino group for `typewriter-roll-mode'."
+  "Customization group for `typewriter-roll-mode'."
   :group 'convenience
   :group 'editing
   :group 'text)

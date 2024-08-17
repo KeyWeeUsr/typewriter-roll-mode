@@ -167,6 +167,60 @@ keep one more line visible above."
           (should (eq (typewriter-roll--cursor-line) 2))
           (should (eq (typewriter-roll--top-line) 1)))))))
 
+(ert-deftest bug-1-prefer-scroll-margin-non-zero ()
+  "https://github.com/KeyWeeUsr/typewriter-roll-mode/issues/1
+
+`typewriter-roll-keep-in-focus' is zero, `scroll-margin' is
+preferred and non-zero. The cursor should move to the next line,
+but keep one more line visible above."
+  (let ((scroll-margin 1)
+        (typewriter-roll-keep-in-focus 0)
+        (typewriter-roll-prefer-scroll-margin t))
+    (with-temp-buffer
+      (switch-to-buffer (current-buffer))
+      (let* ((old-win-start (window-start))
+             (old-win-end (window-end))
+             (old-text "text text")
+             (expected-text (format "%s\ntext" old-text)))
+        ;; initial text
+        (insert old-text)
+
+        ;; default state, cursor on line 1, top is line 1
+        (should (string= (buffer-string) old-text))
+        (should (eq (typewriter-roll--cursor-line) 1))
+        (should (eq (typewriter-roll--top-line) 1))
+
+        (let ((fill-column 10))
+          (typewriter-roll-mode)
+
+          (typewriter-roll--scroll-main (current-column))
+          ;; default state, not enough chars to fill `fill-column'
+          ;; keep cursor on line 1, keep top on line 1
+          (should (string= (buffer-string) old-text))
+          (should (eq (typewriter-roll--cursor-line) 1))
+          (should (eq (typewriter-roll--top-line) 1))
+
+          ;; text is inserted, --scroll-main not called yet
+          (insert " text")
+          (should (string= (buffer-string) (format "%s text" old-text)))
+          (should (eq (typewriter-roll--cursor-line) 1))
+          (should (eq (typewriter-roll--top-line) 1))
+
+          ;; after --scroll-main call
+          ;; move cursor to line 2, keep top on line 1
+          ;; (i.e. +1 previous in focus)
+          (typewriter-roll--scroll-main (current-column))
+          (should (string= (buffer-string) expected-text))
+          (should (eq (typewriter-roll--cursor-line) 2))
+          (should (eq (typewriter-roll--top-line) 1))
+
+          ;; space will be removed by filling, keep previous state
+          (insert " ")
+          (typewriter-roll--scroll-main (current-column))
+          (should (string= (buffer-string) expected-text))
+          (should (eq (typewriter-roll--cursor-line) 2))
+          (should (eq (typewriter-roll--top-line) 1)))))))
+
 (provide 'typewriter-roll-mode-tests)
 
 ;;; typewriter-roll-mode-tests.el ends here

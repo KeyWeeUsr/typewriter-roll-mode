@@ -4,7 +4,7 @@
 
 ;; Author: Peter Badida <keyweeusr@gmail.com>
 ;; Keywords: convenience, line, carriage, writing, distraction, cr, rewind
-;; Version: 1.1.0
+;; Version: 1.2.0
 ;; Package-Requires: ((emacs "24.1"))
 ;; Homepage: https://github.com/KeyWeeUsr/typewriter-roll-mode
 
@@ -63,7 +63,7 @@ the amount of lines when scrolling."
 (defsubst typewriter-roll--scroll-or-nothing (pos)
   "Scroll if the cursor POS changed (content wrapped)."
   (unless (eq pos (current-column))
-      (typewriter-roll--scroll-up)))
+    (typewriter-roll--scroll-up)))
 
 (defsubst typewriter-roll--scroll-main (pos)
   "Main function for checking the first line scrolled to the top.

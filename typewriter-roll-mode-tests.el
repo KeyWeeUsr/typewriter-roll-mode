@@ -1,16 +1,20 @@
 ;;; typewriter-roll-mode-tests.el -- tests for typewriter-roll-mode
 
+;;; Commentary:
+
 ;;; Code:
 
 (require 'ert)
 (require 'typewriter-roll-mode)
 
 (defun typewriter-roll--cursor-line ()
+  "Current line of cursor."
   (line-number-at-pos))
 (defun typewriter-roll--top-line ()
+  "Current line on the top of the buffer."
   (line-number-at-pos (window-start)))
 (defun typewriter-roll--fix-ert-window ()
-  ;; (error "‘recenter’ing a window that does not display current-buffer.")
+  "Fix \"‘recenter’ing a window that does not display current-buffer.\"."
   (switch-to-buffer (current-buffer)))
 
 (ert-deftest trm-backspace ()

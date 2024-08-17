@@ -43,9 +43,22 @@
   :group 'typewriter-roll
   :type 'number)
 
+(defcustom typewriter-roll-prefer-scroll-margin
+  nil
+  "Prefer `scroll-margin' instead of `typewriter-roll-keep-in-focus'.
+
+Explicitly choose the behavior instead of using the larger of
+`scroll-margin' and `typewriter-roll-keep-in-focus' for keeping
+the amount of lines when scrolling."
+  :group 'typewriter-roll
+  :type 'boolean)
+
 (defsubst typewriter-roll--scroll-up ()
   "Scroll current line to the top."
-  (recenter-top-bottom typewriter-roll-keep-in-focus))
+  (if typewriter-roll-prefer-scroll-margin
+      (recenter-top-bottom scroll-margin)
+    (let ((scroll-margin 0))
+      (recenter-top-bottom typewriter-roll-keep-in-focus))))
 
 (defsubst typewriter-roll--scroll-or-nothing (pos)
   "Scroll if the cursor POS changed (content wrapped)."

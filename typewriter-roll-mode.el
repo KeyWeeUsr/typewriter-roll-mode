@@ -79,8 +79,8 @@ Argument POS cursor's position."
 (defun typewriter-roll--check ()
   "Check after typing whether to scroll up as in typewriter."
   (when (or (typewriter-roll--is-backspace)
-            (eq last-command-event (char-from-name "SPACE")))
-    (unless (eq (char-before) (char-from-name "SPACE"))
+            (eq last-command-event (aref " " 0)))
+    (unless (eq (char-before) (aref " " 0))
         (typewriter-roll--scroll-main (current-column))
       (typewriter-roll--scroll-up))))
 

@@ -277,6 +277,31 @@ that line should be the only one visible on top."
           (should (eq (typewriter-roll--cursor-line) 2))
           (should (eq (typewriter-roll--top-line) 2)))))))
 
+(ert-deftest bug-1-prefer-scroll-margin-branch ()
+  "https://github.com/KeyWeeUsr/typewriter-roll-mode/issues/1
+
+Test scrolling value used based on `typewriter-roll-prefer-scroll-margin'."
+  (let ((scroll-margin 123)
+        (typewriter-roll-keep-in-focus 456)
+        result)
+    (unwind-protect
+        (progn
+          (advice-add 'recenter-top-bottom
+                      :override
+                      (lambda (arg) (setq result arg)))
+          (let ((typewriter-roll-prefer-scroll-margin nil))
+            (with-temp-buffer
+              (insert "1\n2")  ; move cursor to trigger scrolling
+              (typewriter-roll--scroll-main (current-column)))
+            (should (eq result typewriter-roll-keep-in-focus)))
+          (let ((typewriter-roll-prefer-scroll-margin t))
+            (with-temp-buffer
+              (insert "1\n2")  ; move cursor to trigger scrolling
+              (typewriter-roll--scroll-main (current-column)))
+            (should (eq result scroll-margin))))
+      (advice-remove 'recenter-top-bottom
+                     (lambda (arg) (setq result arg))))))
+
 (provide 'typewriter-roll-mode-tests)
 
 ;;; typewriter-roll-mode-tests.el ends here

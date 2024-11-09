@@ -1,10 +1,9 @@
+# typewriter-roll-mode
 [![MELPA][melpa-badge]][melpa-package]
 [![MELPA Stable][melpa-stable-badge]][melpa-stable-package]
 [![Buy me a coffee][bmc-badge]][bmc-link]
 [![Liberapay][lp-badge]][lp-link]
 [![PayPal][ppl-badge]][ppl-link]
-
-# typewriter-roll-mode
 
 This minor mode attempts to remove distraction of seeing the previous lines of
 text while dumping an uninterrupted stream of thoughts, hence preventing focus

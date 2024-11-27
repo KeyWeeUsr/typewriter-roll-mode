@@ -59,7 +59,7 @@ jobs:
               compile \
               --warnings-as-errors
 
-      - name: Ensure that copyright notices are up-to-date
+      - name: Run all doctor tests
         run: |
           eldev \
               --verbose \

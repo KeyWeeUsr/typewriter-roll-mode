@@ -1,7 +1,8 @@
 # typewriter-roll-mode
-[![CI][ci-badge]][ci-workflow]
 [![MELPA][melpa-badge]][melpa-package]
 [![MELPA Stable][melpa-stable-badge]][melpa-stable-package]
+[![CI][ci-badge]][ci-workflow]
+[![Coverage Status][cover-badge]][cover-link]
 [![Buy me a coffee][bmc-badge]][bmc-link]
 [![Liberapay][lp-badge]][lp-link]
 [![PayPal][ppl-badge]][ppl-link]
@@ -40,3 +41,5 @@ For every file with `.my-quick-note.txt` extension.
 [lp-link]: https://liberapay.com/keyweeusr
 [ci-badge]: https://github.com/KeyWeeUsr/typewriter-roll-mode/actions/workflows/test.yml/badge.svg
 [ci-workflow]: https://github.com/KeyWeeUsr/typewriter-roll-mode/actions/workflows/test.yml
+[cover-badge]: https://coveralls.io/repos/github/KeyWeeUsr/typewriter-roll-mode/badge.svg?branch=master
+[cover-link]: https://coveralls.io/github/KeyWeeUsr/typewriter-roll-mode?branch=master

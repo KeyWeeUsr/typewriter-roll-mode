@@ -47,7 +47,7 @@ jobs:
               --trace \
               --time \
               --color=always \
-              test
+              test -u on,coveralls
 
       - name: Ensure clean byte-compilation
         run: |

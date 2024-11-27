@@ -6,10 +6,11 @@
 ;(eldev-use-package-archive 'melpa)
 
 (eldev-use-plugin 'autoloads)
+(eldev-use-plugin 'undercover)
 
 (eldev-defcommand tag (tag)
   "Make a new tag"
-  :parameters     "TAG"
+  :parameters "TAG"
   (unless tag
     (signal 'eldev-wrong-command-usage))
   (let ((name "typewriter-roll-mode.el")

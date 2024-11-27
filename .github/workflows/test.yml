@@ -47,6 +47,12 @@ jobs:
               --trace \
               --time \
               --color=always \
+              test
+          eldev \
+              --debug \
+              --trace \
+              --time \
+              --color=always \
               test -u on,coveralls
 
       - name: Ensure clean byte-compilation

@@ -1,6 +1,6 @@
 ;;; typewriter-roll-mode.el --- Aid for distraction-free writing -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2023-2024 Peter Badida
+;; Copyright (C) 2023-2025 Peter Badida
 
 ;; Author: Peter Badida <keyweeusr@gmail.com>
 ;; Keywords: convenience, line, carriage, writing, distraction, cr, rewind
